@@ -2,8 +2,9 @@ package com.emailross.baywinds;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.*;
+import android.view.View;
 
 // Latest BOM melbourne observations
 // ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html
@@ -24,6 +25,17 @@ public class BayWinds extends Activity
                 this, R.array.locations, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
+    }
+
+    public class MyOnItemSelectedListener implements OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            Toast.makeText(parent.getContext(), "The location is " + parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+        }
+
+        public void onNothingSelected(AdapterView parent) {
+        }
     }
 }
 // vim: ts=4 sw=4 et
