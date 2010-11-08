@@ -19,7 +19,13 @@ public class BayWinds extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
+        Forecast forecast = new Forecast("ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml");
+
+        TextView f = (TextView) findViewById(R.id.forecast);
+        f.setText(forecast.getTodaysForecast());
+
+
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.locations, android.R.layout.simple_spinner_item);
