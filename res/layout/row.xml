@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+  <TextView  
+      android:id="@+id/name"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      />
+  <TextView  
+      android:id="@+id/wind_strength"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:ems="2"
+      />
+  <TextView  
+      android:id="@+id/gust_strength"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:ems="2"
+      />
+  <TextView  
+      android:id="@+id/wind_direction"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content" 
+      android:ems="3"
+      />
+</LinearLayout>
+<!-- vim: set ts=2 sw=2 et: -->
