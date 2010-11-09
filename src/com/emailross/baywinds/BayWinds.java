@@ -19,12 +19,14 @@ public class BayWinds extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Forecast forecast = new Forecast("ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml");
+        Location location = Location.PORT_PHILLIP;
+
+        Forecast forecast = new Forecast(location);
 
         TextView f = (TextView) findViewById(R.id.forecast);
         f.setText(forecast.getTodaysForecast());
 
-        Observations observations = new Observations();
+        Observations observations = new Observations(location);
         ObservationAdapter adapter = new ObservationAdapter(this, observations.getObservations());
         setListAdapter(adapter);
     }

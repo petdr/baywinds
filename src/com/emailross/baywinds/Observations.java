@@ -6,24 +6,20 @@ import java.util.*;
  * The current observations of port phillip bay
  */
 public class Observations {
-    private String observations_uri = "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html";
+    private Location location;
     private List<Observation> observations;
 
-    public Observations() {
-        // XXX Look up the observations_uri to determine the data and insert it
-        // into the list.
+    public Observations(Location l) {
+        // XXX Look up the observations_uri and then use the locations
+        // to initialize the list of locations
+        location = l;
+
         observations = new ArrayList();
-
         Observation o;
-        o = new Observation("Fawkner Beacon", "10", "12", "E");
-        observations.add(o);
-
-        o = new Observation("Frankston", "11", "14", "E");
-        observations.add(o);
-
-        o = new Observation("Short", "11", "14", "E");
-        observations.add(o);
-
+        for (String name: location.getLocations()) {
+            o = new Observation(name, "10", "12", "E");
+            observations.add(o);
+        }
     }
 
     public List<Observation> getObservations() {

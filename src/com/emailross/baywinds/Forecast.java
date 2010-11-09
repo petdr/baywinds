@@ -5,7 +5,7 @@ package com.emailross.baywinds;
  * into a format of interest
  */
 public class Forecast {
-    public Forecast(String uri) {
+    public Forecast(Location l) {
     }
 
     public String getTodaysForecast() {
