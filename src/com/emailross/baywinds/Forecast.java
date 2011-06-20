@@ -9,15 +9,17 @@ import android.util.Xml;
 
 import org.xml.sax.Attributes;
 
+import java.io.Serializable;
+
 
 /**
  * Get a forecast from the Australian BOM website and parse it
  * into a format of interest
  */
-public class Forecast {
+public class Forecast implements Serializable {
     private String forecast_today;
-    private String aac;
-    private String index;
+    private transient String aac;
+    private transient String index;
 
     public Forecast(Location location) {
         try {

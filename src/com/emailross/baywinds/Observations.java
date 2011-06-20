@@ -11,7 +11,7 @@ import android.util.Log;
 /**
  * The current observations of port phillip bay
  */
-public class Observations {
+public class Observations implements Serializable {
     private List<Observation> observations;
     private boolean problem = false;
     private String problem_report = "";

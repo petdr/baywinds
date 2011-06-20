@@ -1,6 +1,8 @@
 package com.emailross.baywinds;
 
-public class Observation {
+import java.io.Serializable;
+
+public class Observation implements Serializable {
     private String name, wind_strength, gust_strength, wind_direction;
 
     public Observation(String name, String wind_strength, String gust_strength, String wind_direction) {
