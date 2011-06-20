@@ -39,11 +39,11 @@ public class Observations {
             problem = true;
             problem_report = e.toString();
 
-            Log.e("XXX", problem_report);
+            Log.e("BayWinds", problem_report);
 
             observations = new ArrayList();
             Observation o;
-            o = new Observation(problem_report, "A", "B", "C");
+            o = new Observation(problem_report, "-", "-", "-");
             observations.add(o);
         }
 
