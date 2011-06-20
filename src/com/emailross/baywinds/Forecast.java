@@ -17,9 +17,17 @@ import java.io.Serializable;
  * into a format of interest
  */
 public class Forecast implements Serializable {
+    private boolean have_forecast = false;
     private String forecast_today;
     private transient String aac;
     private transient String index;
+
+    /**
+     * Create an empty forecast
+     */
+    public Forecast() {
+        forecast_today = "";
+    }
 
     public Forecast(Location location) {
         try {
@@ -62,9 +70,22 @@ public class Forecast implements Serializable {
         catch (Exception e) {
             forecast_today = "Unable to get forecast: " + e.toString();
         }
+        have_forecast = true;
     }
 
-    public String getValue(Attributes attrs, String id) {
+    public String getTodaysForecast() {
+        if (have_forecast) {
+            return forecast_today;
+        } else {
+            return "Downloading forecast";
+        }
+    }
+
+    public boolean haveForecast() {
+        return have_forecast;
+    }
+
+    private String getValue(Attributes attrs, String id) {
         String value = attrs.getValue(id);
         if (value == null) {
             value = "";
@@ -72,8 +93,5 @@ public class Forecast implements Serializable {
         return value;
     }
 
-    public String getTodaysForecast() {
-        return forecast_today;
-    }
 }
 // vim: ts=4 sw=4 et

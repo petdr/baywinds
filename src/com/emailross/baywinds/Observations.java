@@ -12,9 +12,14 @@ import android.util.Log;
  * The current observations of port phillip bay
  */
 public class Observations implements Serializable {
+    private boolean have_observations = false;
     private List<Observation> observations;
     private boolean problem = false;
     private String problem_report = "";
+
+    public Observations() {
+        observations = new ArrayList();
+    }
 
     public Observations(Location location) {
         try {
@@ -35,6 +40,8 @@ public class Observations implements Serializable {
                 observations.add(o);
             }
 
+            have_observations = true;
+
         } catch (Exception e) {
             problem = true;
             problem_report = e.toString();
@@ -51,6 +58,10 @@ public class Observations implements Serializable {
 
     public List<Observation> getObservations() {
         return observations;
+    }
+
+    public boolean haveObservations() {
+        return have_observations;
     }
 
     public String getJSONString(String u) throws MalformedURLException, IOException {
