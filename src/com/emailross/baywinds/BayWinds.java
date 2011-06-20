@@ -5,11 +5,6 @@ import android.os.Bundle;
 import android.widget.*;
 import android.view.View;
 
-// Latest BOM melbourne observations
-// ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html
-
-// Latest Melbourne forecast
-// ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml
 public class BayWinds extends ListActivity
 {
     /** Called when the activity is first created. */
