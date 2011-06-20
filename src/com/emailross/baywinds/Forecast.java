@@ -9,7 +9,7 @@ public class Forecast {
     }
 
     public String getTodaysForecast() {
-        return "Winds 10-15 knots, freshing in the afternoon to 20 knots";
+        return "Forecast not implemented yet";
     }
 }
 // vim: ts=4 sw=4 et

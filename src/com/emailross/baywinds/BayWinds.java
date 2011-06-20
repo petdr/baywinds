@@ -19,7 +19,7 @@ public class BayWinds extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Location location = Location.PORT_PHILLIP;
+        Location location = Location.FAWKNER_BEACON;
 
         Forecast forecast = new Forecast(location);
 

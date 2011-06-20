@@ -1,38 +1,33 @@
 package com.emailross.baywinds;
 
 public enum Location {
+    /*
     PORT_PHILLIP    ("Port Phillip Bay",
-                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml",
-                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html",
+                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml", // Forecast
+                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html", // All Melbourne observations
                      new String[]{"Fawkner Beacon", "Frankston"}
                     );
+    */
+
+    FAWKNER_BEACON  ("Fawkner Beacon",
+                     "http://www.bom.gov.au/fwo/IDV60901/IDV60901.95872.json"
+                    );
+
 
     private String name;
-    private String forecast_uri;
-    private String observation_uri;
-    private String[] locations;
+    private String observations_uri;
 
-    Location(String name, String forecast_uri, String observation_uri, String[] locations) {
+    Location(String name, String observations_uri) {
         this.name = name;
-        this.forecast_uri = forecast_uri;
-        this.observation_uri = observation_uri;
-        this.locations = locations;
+        this.observations_uri = observations_uri;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getForecastURI() {
-        return forecast_uri;
-    }
-
-    public String getObservationURI() {
-        return observation_uri;
-    }
-
-    public String[] getLocations() {
-        return locations;
+    public String getObservationsURI() {
+        return observations_uri;
     }
 }
 // vim: ts=4 sw=4 et
