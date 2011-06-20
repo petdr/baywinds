@@ -18,19 +18,22 @@ public class Observations {
 
     public Observations(Location location) {
         try {
-            // Get the json data
-            String json_string = getJSONString(location.getObservationsURI());
-            JSONObject json_obj = new JSONObject(json_string);
-            JSONArray json_data = json_obj.getJSONObject("observations").getJSONArray("data");
-            JSONObject json_latest = json_data.getJSONObject(0);
-
             observations = new ArrayList();
-            Observation o;
-            o = new Observation(location.getName(),
-                    json_latest.getString("wind_spd_kt"),
-                    json_latest.getString("gust_kt"),
-                    json_latest.getString("wind_dir"));
-            observations.add(o);
+
+            for (Station station : location.getStations()) {
+                // Get the json data
+                String json_string = getJSONString(station.getObservationsURI());
+                JSONObject json_obj = new JSONObject(json_string);
+                JSONArray json_data = json_obj.getJSONObject("observations").getJSONArray("data");
+                JSONObject json_latest = json_data.getJSONObject(0);
+
+                Observation o;
+                o = new Observation(station.getName(),
+                        json_latest.getString("wind_spd_kt"),
+                        json_latest.getString("gust_kt"),
+                        json_latest.getString("wind_dir"));
+                observations.add(o);
+            }
 
         } catch (Exception e) {
             problem = true;

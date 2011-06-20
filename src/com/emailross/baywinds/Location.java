@@ -1,33 +1,36 @@
 package com.emailross.baywinds;
 
+/**
+ * A Location for which the application will provide a forecast and wind readings
+ * from a various set of weather stations at the location.
+ */
 public enum Location {
-    /*
     PORT_PHILLIP    ("Port Phillip Bay",
-                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml", // Forecast
-                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV60034.html", // All Melbourne observations
-                     new String[]{"Fawkner Beacon", "Frankston"}
-                    );
-    */
-
-    FAWKNER_BEACON  ("Fawkner Beacon",
-                     "http://www.bom.gov.au/fwo/IDV60901/IDV60901.95872.json"
+                     "ftp://ftp2.bom.gov.au/anon/gen/fwo/IDV10460.xml",
+                     new Station[] {Station.FAWKNER_BEACON, Station.ST_KILDA_RMYS, Station.FRANKSTON, Station.SOUTH_CHANNEL, Station.POINT_WILSON}
                     );
 
 
     private String name;
-    private String observations_uri;
+    private String forecast_uri;
+    private Station[] stations;
 
-    Location(String name, String observations_uri) {
+    Location(String name, String forecast_uri, Station[] stations) {
         this.name = name;
-        this.observations_uri = observations_uri;
+        this.forecast_uri = forecast_uri;
+        this.stations = stations;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getObservationsURI() {
-        return observations_uri;
+    public String getForecastUri() {
+        return forecast_uri;
+    }
+
+    public Station[] getStations() {
+        return stations;
     }
 }
 // vim: ts=4 sw=4 et
