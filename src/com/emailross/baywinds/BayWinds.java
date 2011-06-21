@@ -4,7 +4,8 @@ import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.*;
-import android.view.View;
+import android.view.*;
+import android.view.ContextMenu.ContextMenuInfo;
 
 import android.util.Log;
 
@@ -17,6 +18,8 @@ public class BayWinds extends ListActivity
     private static String LOCATION_KEY = "location";
     private static String FORECAST_KEY = "forecast";
     private static String OBSERVATIONS_KEY = "observations";
+
+    private static final int MENU_ITEM_REFRESH = Menu.FIRST;
 
     /** Called when the activity is first created. */
     @Override
@@ -49,6 +52,28 @@ public class BayWinds extends ListActivity
 
         displayForecast();
         displayObservations();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, MENU_ITEM_REFRESH, 0, R.string.menu_refresh);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_ITEM_REFRESH:
+                refresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void refresh() {
+        refreshForecast();
+        refreshObservations();
     }
 
     public void refreshForecast() {
@@ -103,5 +128,6 @@ public class BayWinds extends ListActivity
             displayObservations();
         }
 	}
+
 }
 // vim: ts=4 sw=4 et
