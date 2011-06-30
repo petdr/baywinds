@@ -9,6 +9,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 
 import android.util.Log;
 
+import com.google.ads.*;
+
 public class BayWinds extends ListActivity
 {
     private Location location;
@@ -52,7 +54,11 @@ public class BayWinds extends ListActivity
 
         displayForecast();
         displayObservations();
-    }
+
+        // Create the adView
+        AdView adView = (AdView)this.findViewById(R.id.adView);
+        adView.loadAd(new AdRequest());
+  }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
