@@ -1,4 +1,4 @@
-package com.emailross.baywinds;
+package com.emailross.ozwinds;
 
 /**
  * A Location for which the application will provide a forecast and wind readings

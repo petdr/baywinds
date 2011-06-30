@@ -1,4 +1,4 @@
-package com.emailross.baywinds;
+package com.emailross.ozwinds;
 
 import java.net.*;
 import java.io.*;

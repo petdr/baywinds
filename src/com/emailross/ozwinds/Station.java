@@ -1,4 +1,4 @@
-package com.emailross.baywinds;
+package com.emailross.ozwinds;
 
 /**
  * A weather station in Australia.
