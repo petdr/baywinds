@@ -18,6 +18,21 @@ public enum Station {
                     ),
     POINT_WILSON    ("Point Wilson",
                      "http://www.bom.gov.au/fwo/IDV60901/IDV60901.94847.json"
+                    ),
+    NORTH_HEAD      ("North Head",
+                     "http://www.bom.gov.au/fwo/IDN60901/IDN60901.95768.json"
+                    ),
+    SYDNEY_HARBOUR  ("Sydney Harbour",
+                     "http://www.bom.gov.au/fwo/IDN60901/IDN60901.95766.json"
+                    ),
+    FORT_DENISON    ("Fort Dension",
+                     "http://www.bom.gov.au/fwo/IDN60901/IDN60901.94769.json"
+                    ),
+    LITTLE_BAY      ("Little Bay",
+                     "http://www.bom.gov.au/fwo/IDN60901/IDN60901.94780.json"
+                    ),
+    KURNELL         ("Kurnell",
+                     "http://www.bom.gov.au/fwo/IDN60901/IDN60901.95756.json"
                     );
 
     private String name;

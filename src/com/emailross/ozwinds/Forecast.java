@@ -29,7 +29,7 @@ public class Forecast implements Serializable {
         forecast_today = "";
     }
 
-    public Forecast(Location location) {
+    public Forecast(final Location location) {
         try {
             final Forecast f = this;
 
@@ -59,7 +59,7 @@ public class Forecast implements Serializable {
             });
             text.setEndTextElementListener(new EndTextElementListener() {
                 public void end(String body) {
-                    if (f.aac.equals("VIC_MW005") && f.index.equals("0")) {
+                    if (f.aac.equals(location.getArea()) && f.index.equals("0")) {
                         f.forecast_today = body.replace(" Seas: ", "\n\nSeas:\n").replace("Winds: ", "Winds:\n") + "\n";
                     }
                 }
