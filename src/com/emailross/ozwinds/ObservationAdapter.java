@@ -7,19 +7,10 @@ import java.util.List;
 
 public class ObservationAdapter extends ArrayAdapter<Observation> {
     private List<Observation> observations;
-    private int max_location_length;
 
     public ObservationAdapter(Context context, List<Observation> os) {
         super(context, R.layout.row, os);
         this.observations = os;
-
-        // Determine the size for the location text string
-        max_location_length = 0;
-        for (Observation o: os) {
-            if (max_location_length < o.getName().length()) {
-                max_location_length = o.getName().length();
-            }
-        }
     }
 
     @Override
@@ -35,7 +26,6 @@ public class ObservationAdapter extends ArrayAdapter<Observation> {
 
         TextView name = (TextView) v.findViewById(R.id.name);
         name.setText(o.getName());
-        name.setEms(max_location_length / 2);
 
         TextView wind_strength = (TextView) v.findViewById(R.id.wind_strength);
         wind_strength.setText(o.getWindStrength());

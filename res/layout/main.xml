@@ -14,6 +14,40 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+      <TableRow>
+        <TextView
+          android:text="Location"
+          android:id="@+id/stationTitle"
+          android:padding="3dip"
+          android:textSize="14dip"
+          android:width="190dip" />
+        <TextView
+          android:text="Wind"
+          android:id="@+id/windTitle"
+          android:gravity="right"
+          android:padding="3dip"
+          android:width="40dip"
+          android:textSize="14dip" />
+        <TextView
+          android:text="Gust"
+          android:id="@+id/gustTitle"
+          android:gravity="right"
+          android:padding="3dip"
+          android:width="40dip"
+          android:textSize="14dip" />
+        <TextView
+          android:text="Dir"
+          android:id="@+id/dirTitle"
+          android:gravity="center"
+          android:padding="3dip"
+          android:width="40dip"
+          android:textSize="14dip" />
+      </TableRow>
+    </TableLayout>
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"
