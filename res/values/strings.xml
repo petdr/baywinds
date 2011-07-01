@@ -2,13 +2,5 @@
 <resources>
   <string name="app_name">BayWinds</string>
   <string name="menu_refresh">Refresh</string>
-  <string name="location_prompt">Location</string>
-  <string-array name="locations">
-    <item>St Kilda Harbour</item>
-    <item>Fawkner Beacon</item>
-    <item>Point Wilson</item>
-    <item>Frankston Beach</item>
-    <item>South Channel Island</item>
-    <item>Cerberus</item>
-  </string-array>
+  <string name="menu_location">Location</string>
 </resources>

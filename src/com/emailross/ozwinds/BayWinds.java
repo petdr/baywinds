@@ -22,6 +22,7 @@ public class BayWinds extends ListActivity
     private static String OBSERVATIONS_KEY = "observations";
 
     private static final int MENU_ITEM_REFRESH = Menu.FIRST;
+    private static final int MENU_ITEM_LOCATION = MENU_ITEM_REFRESH + 1;
 
     /** Called when the activity is first created. */
     @Override
@@ -64,6 +65,7 @@ public class BayWinds extends ListActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add(0, MENU_ITEM_REFRESH, 0, R.string.menu_refresh);
+        menu.add(0, MENU_ITEM_LOCATION, 0, R.string.menu_location);
         return true;
     }
 
@@ -72,6 +74,8 @@ public class BayWinds extends ListActivity
         switch (item.getItemId()) {
             case MENU_ITEM_REFRESH:
                 refresh();
+                return true;
+            case MENU_ITEM_LOCATION:
                 return true;
         }
         return super.onOptionsItemSelected(item);
