@@ -5,6 +5,7 @@ import java.net.*;
 import java.io.*;
 
 import org.json.*;
+import com.google.gson.stream.*;
 
 import android.util.Log;
 
@@ -26,17 +27,8 @@ public class Observations implements Serializable {
             observations = new ArrayList();
 
             for (Station station : location.getStations()) {
-                // Get the json data
-                String json_string = getJSONString(station.getObservationsURI());
-                JSONObject json_obj = new JSONObject(json_string);
-                JSONArray json_data = json_obj.getJSONObject("observations").getJSONArray("data");
-                JSONObject json_latest = json_data.getJSONObject(0);
-
-                Observation o;
-                o = new Observation(station.getName(),
-                        json_latest.getString("wind_spd_kt"),
-                        json_latest.getString("gust_kt"),
-                        json_latest.getString("wind_dir"));
+                JsonReader reader = getJsonReader(station.getObservationsURI());
+                Observation o = getFirstObservation(reader);
                 observations.add(o);
             }
 
@@ -64,25 +56,56 @@ public class Observations implements Serializable {
         return have_observations;
     }
 
-    public String getJSONString(String u) throws MalformedURLException, IOException {
+    public JsonReader getJsonReader(String u) throws MalformedURLException, IOException {
         URL url = new URL(u);
         URLConnection urlc = url.openConnection();
         InputStream is = urlc.getInputStream();
 
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        int nRead;
-        byte[] data = new byte[16384];
-
-        while ((nRead = is.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-
-        buffer.flush();
-
-        return new String(buffer.toByteArray());
+        return new JsonReader(new InputStreamReader(is, "UTF-8"));
     }
 
+    private Observation getFirstObservation(JsonReader reader) throws IOException {
+        reader.beginObject();   // {
+        reader.nextName();      // "observations":
+        reader.beginObject();   // {
+        reader.nextName();      // "notice":
+        reader.skipValue();     // ....
+        reader.nextName();      // "header:
+        reader.skipValue();     // ....
+        reader.nextName();      // "data":
+        reader.beginArray();    // [
 
+        return readObservation(reader);
+    }
+
+    /**
+     * Read a single observation from the reader.
+     */
+    private Observation readObservation(JsonReader reader) throws IOException {
+        String name = "";
+        String wind_spd_kt = "";
+        String gust_kt = "";
+        String wind_dir = "";
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String id = reader.nextName();
+            Log.e("BayWinds", id);
+            if (id.equals("name")) {
+                name = reader.nextString();
+            } else if (id.equals("wind_spd_kt")) {
+                wind_spd_kt = reader.nextString();
+            } else if (id.equals("gust_kt")) {
+                gust_kt = reader.nextString();
+            } else if (id.equals("wind_dir")) {
+                wind_dir = reader.nextString();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+
+        return new Observation(name, wind_spd_kt, gust_kt, wind_dir);
+    }
 }
 // vim: ts=4 sw=4 et
