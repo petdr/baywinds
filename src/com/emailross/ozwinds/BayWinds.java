@@ -1,11 +1,18 @@
 package com.emailross.ozwinds;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.*;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
+
+import java.util.ArrayList;
 
 import android.util.Log;
 
@@ -23,6 +30,8 @@ public class BayWinds extends ListActivity
 
     private static final int MENU_ITEM_REFRESH = Menu.FIRST;
     private static final int MENU_ITEM_LOCATION = MENU_ITEM_REFRESH + 1;
+
+    private static final int DIALOG_SELECT_LOCATION = Menu.FIRST;
 
     /** Called when the activity is first created. */
     @Override
@@ -76,9 +85,40 @@ public class BayWinds extends ListActivity
                 refresh();
                 return true;
             case MENU_ITEM_LOCATION:
+                showDialog(DIALOG_SELECT_LOCATION);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Dialog onCreateDialog(int d) {
+        switch (d) {
+            case DIALOG_SELECT_LOCATION:
+                // Construct the list of locations to choose from
+                ArrayList<CharSequence> list = new ArrayList();
+                for (Location l: Location.values()) {
+                    list.add(l.getName());
+                }
+                final CharSequence[] items = (CharSequence[]) list.toArray(new CharSequence[0]);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Pick a location");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        setLocation(Location.values()[item]);
+                        refresh();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                return alert;
+        }
+
+        return null;
+    }
+
+    private void setLocation(Location l) {
+        this.location = l;
     }
 
     public void refresh() {
