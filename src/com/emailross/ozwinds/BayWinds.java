@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.*;
@@ -24,6 +26,8 @@ public class BayWinds extends ListActivity
     private Forecast forecast;
     private Observations observations;
 
+    private SharedPreferences prefs;
+
     private static String LOCATION_KEY = "location";
     private static String FORECAST_KEY = "forecast";
     private static String OBSERVATIONS_KEY = "observations";
@@ -40,6 +44,8 @@ public class BayWinds extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        prefs = getPreferences(MODE_PRIVATE);
+
         // Restore state from bundle if it exists
         if (savedInstanceState != null) {
             Log.d("BayWinds", "restoring state");
@@ -47,7 +53,8 @@ public class BayWinds extends ListActivity
             forecast = (Forecast) savedInstanceState.getSerializable(FORECAST_KEY);
             observations = (Observations) savedInstanceState.getSerializable(OBSERVATIONS_KEY);
         } else {
-            location = Location.PORT_PHILLIP;
+            int location_ordinal = prefs.getInt(LOCATION_KEY, Location.PORT_PHILLIP.ordinal());
+            location = Location.values()[location_ordinal];
             forecast = new Forecast();
             observations = new Observations();
         }
@@ -119,6 +126,10 @@ public class BayWinds extends ListActivity
 
     private void setLocation(Location l) {
         this.location = l;
+
+        Editor e = prefs.edit();
+        e.putInt(LOCATION_KEY, l.ordinal());
+        e.commit();
     }
 
     public void refresh() {
