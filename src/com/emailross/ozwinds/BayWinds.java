@@ -55,8 +55,8 @@ public class BayWinds extends ListActivity
         } else {
             int location_ordinal = prefs.getInt(LOCATION_KEY, Location.PORT_PHILLIP.ordinal());
             location = Location.values()[location_ordinal];
-            forecast = new Forecast();
-            observations = new Observations();
+            forecast = new Forecast(location);
+            observations = new Observations(location);
         }
 
 
@@ -151,7 +151,7 @@ public class BayWinds extends ListActivity
 
     public void refreshObservations() {
         Log.d("BayWinds", "loading observations");
-        new GetObservationsTask().execute(location);
+        new GetObservationsTask().execute(observations);
     }
 
     public void displayForecast() {
@@ -184,14 +184,14 @@ public class BayWinds extends ListActivity
         }
 	}
 
-    private class GetObservationsTask extends AsyncTask<Location, Void, Observations>
+    private class GetObservationsTask extends AsyncTask<Observations, Void, Integer>
     {
-      	protected Observations doInBackground(Location... args) {
-            return new Observations(args[0]);
+      	protected Integer doInBackground(Observations... args) {
+            args[0].refresh();
+            return new Integer(1);
         }
 
-        protected void onPostExecute(Observations observations) {
-            BayWinds.this.observations = observations;
+        protected void onPostExecute(Integer i) {
             displayObservations();
         }
 	}

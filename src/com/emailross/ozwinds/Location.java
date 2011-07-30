@@ -16,7 +16,6 @@ public enum Location {
                      new Station[] {Station.NORTH_HEAD, Station.SYDNEY_HARBOUR, Station.FORT_DENISON, Station.LITTLE_BAY, Station.KURNELL}
                     );
 
-
     private String name;
     private String forecast_uri;
     private String forecast_area;

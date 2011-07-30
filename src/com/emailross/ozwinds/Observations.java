@@ -14,15 +14,42 @@ import android.util.Log;
  */
 public class Observations implements Serializable {
     private boolean have_observations = false;
+    private Location location;
     private List<Observation> observations;
     private boolean problem = false;
     private String problem_report = "";
+    private long last_observation = 0;
 
-    public Observations() {
-        observations = new ArrayList();
+    private final int ONE_SECOND = 1000;
+    private final int ONE_MINUTE = 60 * ONE_SECOND;
+
+    public Observations(Location l) {
+        setLocation(l);
     }
 
-    public Observations(Location location) {
+    public void setLocation(Location l) {
+        if (location != l) {
+            location = l;
+            force_refresh();
+        }
+    }
+
+    public void refresh() {
+        // Only refresh if we are one minute into a new 30 minute block
+        long current_observation = ( new Date().getTime() - ONE_MINUTE ) / (30 * ONE_MINUTE);
+        Log.d("BayWinds", "last_observation: " + last_observation);
+        Log.d("BayWinds", "current_observation: " + current_observation);
+
+        if (current_observation != last_observation || !have_observations) {
+            force_refresh();
+
+            if (have_observations) {
+                last_observation = current_observation;
+            }
+        }
+    }
+
+    public void force_refresh() {
         try {
             observations = new ArrayList();
 
@@ -90,7 +117,6 @@ public class Observations implements Serializable {
         reader.beginObject();
         while (reader.hasNext()) {
             String id = reader.nextName();
-            Log.e("BayWinds", id);
             if (id.equals("name")) {
                 name = reader.nextString();
             } else if (id.equals("wind_spd_kt")) {
