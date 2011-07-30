@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-import com.google.ads.*;
+import com.adwhirl.*;
 
 public class BayWinds extends ListActivity
 {
@@ -72,9 +72,15 @@ public class BayWinds extends ListActivity
         displayForecast();
         displayObservations();
 
-        // Create the adView
-        AdView adView = (AdView)this.findViewById(R.id.adView);
-        adView.loadAd(new AdRequest());
+        // Create the ad
+        LinearLayout layout = (LinearLayout)findViewById(R.id.mainLayout);
+
+        AdWhirlLayout adWhirlLayout = new AdWhirlLayout(this, "7b8e10ac47c949ec8acb883a43f44026");
+        adWhirlLayout.setGravity(Gravity.BOTTOM);
+        RelativeLayout.LayoutParams adWhirlLayoutParams = new RelativeLayout.LayoutParams(320, 52);
+        layout.addView(adWhirlLayout, adWhirlLayoutParams);
+
+        layout.invalidate();
   }
 
     @Override

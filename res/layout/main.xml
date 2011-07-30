@@ -52,13 +52,5 @@
       android:layout_height="wrap_content"
       android:layout_weight="1"
       />
-  <com.google.ads.AdView
-      android:id="@+id/adView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      ads:adUnitId="a14e0c14c1562ed"
-      ads:adSize="BANNER"
-      />
 </LinearLayout>
 <!-- vim: set ts=2 sw=2 et: -->
