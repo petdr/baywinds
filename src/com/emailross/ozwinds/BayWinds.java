@@ -132,6 +132,7 @@ public class BayWinds extends ListActivity
 
     private void setLocation(Location l) {
         this.location = l;
+        observations.setLocation(l);
 
         Editor e = prefs.edit();
         e.putInt(LOCATION_KEY, l.ordinal());
