@@ -157,7 +157,7 @@ public class BayWinds extends ListActivity
 
     public void displayForecast() {
         TextView f = (TextView) findViewById(R.id.forecast);
-        f.setText(forecast.getTodaysForecast());
+        f.setText("Forecast for " + forecast.getForecastDay(0) + "\n" + forecast.getForecast(0));
     }
 
     public void displayObservations() {

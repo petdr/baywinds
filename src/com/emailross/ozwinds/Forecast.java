@@ -4,6 +4,8 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 
+import java.text.SimpleDateFormat;
+
 import android.sax.*;
 import android.util.Log;
 import android.util.Xml;
@@ -19,7 +21,8 @@ import java.io.Serializable;
  */
 public class Forecast implements Serializable {
     private boolean have_forecast = false;
-    private List<String> forecasts;
+    private List<ForecastForDate> forecasts;
+    private transient ForecastForDate latest_forecast;
     private transient String aac;
     private transient int index;
 
@@ -32,6 +35,7 @@ public class Forecast implements Serializable {
 
     public Forecast(final Location location) {
         try {
+            final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ssz");
             forecasts = new ArrayList();
 
             final Forecast f = this;
@@ -61,6 +65,12 @@ public class Forecast implements Serializable {
                         f.index = -1;
                     } else {
                         f.index = new Integer(index_string);
+
+                        latest_forecast = new ForecastForDate();
+                        latest_forecast.start = df.parse(getValue(attrs, "start-time-local"), new java.text.ParsePosition(0));
+                        latest_forecast.forecast = "Unable to download forecast";
+
+                        f.forecasts.add(f.index, latest_forecast);
                     }
                     Log.w("BayWinds", index_string);
                 }
@@ -69,7 +79,7 @@ public class Forecast implements Serializable {
                 public void end(String body) {
                     if (f.aac.equals(location.getArea()) && f.index >= 0) {
                         String forecast = body.replace(" Seas: ", "\n\nSeas:\n").replace("Winds: ", "Winds:\n") + "\n";
-                        f.forecasts.add(f.index, forecast);
+                        latest_forecast.forecast = forecast;
                     }
                 }
             });
@@ -77,21 +87,22 @@ public class Forecast implements Serializable {
             Xml.parse(i, Xml.Encoding.UTF_8, root.getContentHandler());
         }
         catch (Exception e) {
-            forecasts.add("Unable to get forecast: " + e.toString());
+            latest_forecast = new ForecastForDate();
+            latest_forecast.start = new Date();
+            latest_forecast.forecast = "Unable to get forecast: " + e.toString();
+
+            forecasts = new ArrayList();
+            forecasts.add(latest_forecast);
         }
         have_forecast = true;
     }
 
-    public String getTodaysForecast() {
-        if (have_forecast) {
-            return forecasts.get(0);
-        } else {
-            return "Downloading forecast";
-        }
+    public String getForecastDay(int index) {
+        return new SimpleDateFormat("EEEE").format(forecasts.get(index).start);
     }
 
     public String getForecast(int index) {
-        return forecasts.get(index);
+        return forecasts.get(index).forecast;
     }
 
     public int getSize() {
@@ -112,6 +123,11 @@ public class Forecast implements Serializable {
             value = "";
         }
         return value;
+    }
+
+    private static class ForecastForDate {
+        public Date start;
+        public String forecast;
     }
 
 }
