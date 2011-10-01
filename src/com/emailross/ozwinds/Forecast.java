@@ -1,5 +1,6 @@
 package com.emailross.ozwinds;
 
+import java.util.*;
 import java.net.*;
 import java.io.*;
 
@@ -18,19 +19,21 @@ import java.io.Serializable;
  */
 public class Forecast implements Serializable {
     private boolean have_forecast = false;
-    private String forecast_today;
+    private List<String> forecasts;
     private transient String aac;
-    private transient String index;
+    private transient int index;
 
     /**
      * Create an empty forecast
      */
     public Forecast() {
-        forecast_today = "";
+        forecasts = new ArrayList();
     }
 
     public Forecast(final Location location) {
         try {
+            forecasts = new ArrayList();
+
             final Forecast f = this;
 
             // XXX This code doesn't work under the emulator, some problem with
@@ -53,14 +56,20 @@ public class Forecast implements Serializable {
             });
             forecast_period.setStartElementListener(new StartElementListener() {
                 public void start(Attributes attrs) {
-                    f.index = getValue(attrs, "index");
-                    Log.w("BayWinds", f.index);
+                    String index_string = getValue(attrs, "index");
+                    if (index_string == null || index_string.equals("")) {
+                        f.index = -1;
+                    } else {
+                        f.index = new Integer(index_string);
+                    }
+                    Log.w("BayWinds", index_string);
                 }
             });
             text.setEndTextElementListener(new EndTextElementListener() {
                 public void end(String body) {
-                    if (f.aac.equals(location.getArea()) && f.index.equals("0")) {
-                        f.forecast_today = body.replace(" Seas: ", "\n\nSeas:\n").replace("Winds: ", "Winds:\n") + "\n";
+                    if (f.aac.equals(location.getArea()) && f.index >= 0) {
+                        String forecast = body.replace(" Seas: ", "\n\nSeas:\n").replace("Winds: ", "Winds:\n") + "\n";
+                        f.forecasts.add(f.index, forecast);
                     }
                 }
             });
@@ -68,16 +77,28 @@ public class Forecast implements Serializable {
             Xml.parse(i, Xml.Encoding.UTF_8, root.getContentHandler());
         }
         catch (Exception e) {
-            forecast_today = "Unable to get forecast: " + e.toString();
+            forecasts.add("Unable to get forecast: " + e.toString());
         }
         have_forecast = true;
     }
 
     public String getTodaysForecast() {
         if (have_forecast) {
-            return forecast_today;
+            return forecasts.get(0);
         } else {
             return "Downloading forecast";
+        }
+    }
+
+    public String getForecast(int index) {
+        return forecasts.get(index);
+    }
+
+    public int getSize() {
+        if (have_forecast) {
+            return forecasts.size();
+        } else {
+            return 1;
         }
     }
 
