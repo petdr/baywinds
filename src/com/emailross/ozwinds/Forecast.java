@@ -118,7 +118,7 @@ public class Forecast implements Serializable {
         return value;
     }
 
-    private static class ForecastForDate {
+    private static class ForecastForDate implements Serializable {
         public Date start;
         public String forecast;
 
