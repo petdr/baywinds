@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.widget.*;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.GestureDetector.SimpleOnGestureListener;
 
 import java.util.ArrayList;
 
@@ -158,6 +159,18 @@ public class BayWinds extends ListActivity
     public void displayForecast() {
         TextView f = (TextView) findViewById(R.id.forecast);
         f.setText("Forecast for " + forecast.getForecastDay(0) + "\n" + forecast.getForecast(0));
+
+        final GestureDetector gd = new GestureDetector(new ForecastGestureListener(f));
+        View.OnTouchListener gl = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (gd.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        f.setOnTouchListener(gl);
     }
 
     public void displayObservations() {
@@ -196,6 +209,36 @@ public class BayWinds extends ListActivity
             displayObservations();
         }
 	}
+
+    private class ForecastGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private TextView text_view;
+        private int index = 0;
+
+        public ForecastGestureListener(TextView tv) {
+            text_view = tv;
+        }
+
+        // This is needed otherwise the fling event cannot be detected.
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (velocityX > 0) {
+                index--;
+                if (index < 0) {
+                    index = 0;
+                }
+            } else {
+                index++;
+                if (index >= forecast.getSize()) {
+                    index = forecast.getSize() - 1;
+                }
+            }
+            text_view.setText("Forecast for " + forecast.getForecastDay(index) + "\n" + forecast.getForecast(index));
+            return true;
+        }
+    }
 
 }
 // vim: ts=4 sw=4 et
