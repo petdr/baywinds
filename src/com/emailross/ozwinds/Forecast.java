@@ -61,18 +61,15 @@ public class Forecast implements Serializable {
             forecast_period.setStartElementListener(new StartElementListener() {
                 public void start(Attributes attrs) {
                     String index_string = getValue(attrs, "index");
+                    Log.w("BayWinds", index_string);
+
                     if (index_string == null || index_string.equals("")) {
                         f.index = -1;
                     } else {
                         f.index = new Integer(index_string);
-
-                        latest_forecast = new ForecastForDate();
-                        latest_forecast.start = df.parse(getValue(attrs, "start-time-local"), new java.text.ParsePosition(0));
-                        latest_forecast.forecast = "Unable to download forecast";
-
+                        latest_forecast = new ForecastForDate(getValue(attrs, "start-time-local"), "Unable to download forecast");
                         f.forecasts.add(f.index, latest_forecast);
                     }
-                    Log.w("BayWinds", index_string);
                 }
             });
             text.setEndTextElementListener(new EndTextElementListener() {
@@ -87,12 +84,8 @@ public class Forecast implements Serializable {
             Xml.parse(i, Xml.Encoding.UTF_8, root.getContentHandler());
         }
         catch (Exception e) {
-            latest_forecast = new ForecastForDate();
-            latest_forecast.start = new Date();
-            latest_forecast.forecast = "Unable to get forecast: " + e.toString();
-
             forecasts = new ArrayList();
-            forecasts.add(latest_forecast);
+            forecasts.add(new ForecastForDate(e));
         }
         have_forecast = true;
     }
@@ -128,6 +121,17 @@ public class Forecast implements Serializable {
     private static class ForecastForDate {
         public Date start;
         public String forecast;
+
+        public ForecastForDate(String xsd_date_string, String forecast) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ssz");
+            this.start = df.parse(xsd_date_string, new java.text.ParsePosition(0));
+            this.forecast = forecast;
+        }
+
+        public ForecastForDate(Exception e) {
+            this.start = new Date();
+            this.forecast = "Unable to get forecast: " + e.toString();
+        }
     }
 
 }
