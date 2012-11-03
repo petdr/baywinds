@@ -123,7 +123,7 @@ public class Forecast implements Serializable {
         public String forecast;
 
         public ForecastForDate(String xsd_date_string, String forecast) {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ssz");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssz");
             this.start = df.parse(xsd_date_string, new java.text.ParsePosition(0));
             this.forecast = forecast;
         }
