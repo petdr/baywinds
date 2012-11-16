@@ -91,7 +91,7 @@ public class Forecast implements Serializable {
     }
 
     public String getForecastDay(int index) {
-        return new SimpleDateFormat("EEEE").format(forecasts.get(index).start);
+        return new SimpleDateFormat("EEEE, dd MMM yyyy").format(forecasts.get(index).start);
     }
 
     public String getForecast(int index) {
